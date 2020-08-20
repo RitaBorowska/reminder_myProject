@@ -3,6 +3,7 @@ package org.example.reminder_my_project;
 import org.example.reminder_my_project.database.EntityDao;
 import org.example.reminder_my_project.database.HibernateUtil;
 import org.example.reminder_my_project.project.Car;
+import org.hibernate.Session;
 import org.hibernate.transform.CacheableResultTransformer;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Initial version");
+
         Scanner scanner = new Scanner(System.in);
         String commandCar;
 
@@ -25,6 +27,7 @@ public class Main {
                     "Car delete \n" +
                     "Quit");
 
+            commandCar = scanner.nextLine();
             String[] words = commandCar.split(" ");
 
             if(words[0].equalsIgnoreCase("car")
@@ -149,6 +152,23 @@ public class Main {
     }
 
     private static void deleteCar(String[] words) {
+
+        EntityDao<Car> entityDao = new EntityDao<>();
+
+        System.out.println("Which car to delete - enter the car id:");
+
+        Scanner scanner = new Scanner(System.in);
+        Long id = Long.parseLong(scanner.nextLine());
+
+        Optional<Car> carDelete = entityDao
+                .findById(Car.class, id);
+
+        if (carDelete.isPresent()) {
+            Car car = carDelete.get();
+            System.out.println("Delete car: ");
+            entityDao.delete(car);
+        } else
+            System.out.println("Not found car");
 
     }
 
