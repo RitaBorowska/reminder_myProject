@@ -3,6 +3,7 @@ package org.example.reminder_my_project.project;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -16,20 +17,21 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    private String registerNum;
     private String mark;
-
     private String model;
 
-    public Car(String registerNum, String mark, String model) {
-        this.registerNum = registerNum;
+    private String regNum;
+
+    @OneToMany(mappedBy = "car",fetch = FetchType.EAGER)
+    @EqualsAndHashCode.Exclude
+    private List<CarReminder> carReminder;
+
+    public Car(String mark, String model, String regNum) {
         this.mark = mark;
         this.model = model;
-    }
+        this.regNum = regNum;
 
-    @OneToMany(mappedBy = "car")
-    private List<CarReminder> carReminder;
-    
+    }
 }

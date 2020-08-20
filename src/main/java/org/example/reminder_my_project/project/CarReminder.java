@@ -1,9 +1,7 @@
 package org.example.reminder_my_project.project;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,14 +23,18 @@ public class CarReminder {
     private LocalDateTime date;
     private ReminderPeriod period;
 
+    @ManyToOne
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private Car car;
+
     public CarReminder(ReminderType type, String amount, LocalDateTime date, ReminderPeriod period) {
         this.type = type;
         this.amount = amount;
         this.date = date;
         this.period = period;
-    }
 
-    @ManyToOne
-    private Car car;
+
+    }
 
 }

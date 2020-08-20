@@ -1,5 +1,6 @@
 package org.example.reminder_my_project.database;
 
+import org.example.reminder_my_project.project.Car;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -89,5 +90,54 @@ public class EntityDao<T>{
             he.printStackTrace();
         }
         return list;
+    }
+
+    public List<Car> findByMark(Class<Car> classType, String mark) {
+        List<Car> listByMark = new ArrayList<>();
+        SessionFactory sessionFactory = HibernateUtil.getOurSessionFactory();
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Car> criteriaQuery = cb.createQuery(classType);
+            Root<Car> carRoot = criteriaQuery.from(classType);
+            criteriaQuery.select(carRoot)
+                    .where(cb.equal(carRoot.get("mark"), mark));
+            listByMark.addAll(session.createQuery(criteriaQuery).list());
+        }catch (HibernateException he) {
+            he.printStackTrace();
+        }
+        return listByMark;
+    }
+
+    public List<Car> findByModel(Class<Car> classType, String model) {
+        List<Car> listByModel = new ArrayList<>();
+        SessionFactory sessionFactory = HibernateUtil.getOurSessionFactory();
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Car> criteriaQuery = cb.createQuery(classType);
+            Root<Car> carRoot = criteriaQuery.from(classType);
+            criteriaQuery.select(carRoot)
+                    .where(cb.equal(carRoot.get("model"), model));
+            listByModel.addAll(session.createQuery(criteriaQuery).list());
+        }catch (HibernateException he) {
+            he.printStackTrace();
+        }
+        return listByModel;
+    }
+
+    public List<Car> findByRegNum(Class<Car> classType, String regNum) {
+        List<Car> listByRegNum = new ArrayList<>();
+        SessionFactory sessionFactory = HibernateUtil.getOurSessionFactory();
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Car> criteriaQuery = cb.createQuery(classType);
+            Root<Car> carRoot = criteriaQuery.from(classType);
+            criteriaQuery.select(carRoot)
+                    .where(cb.equal(carRoot.get("regNum"), regNum));
+            listByRegNum.addAll(session.createQuery(criteriaQuery).list());
+        }catch (HibernateException he) {
+            he.printStackTrace();
+        }
+
+        return listByRegNum;
     }
 }
