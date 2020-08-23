@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
         System.out.println("Initial version");
 
         Scanner scanner = new Scanner(System.in);
@@ -23,9 +24,9 @@ public class Main {
             String[] words = commandCar.split(" ");
 
             if (words[0].equalsIgnoreCase("car")) {
-                carHandler.handle(commandCar);
+                carHandler.handle();
             } else if (words[0].equalsIgnoreCase("reminder")) {
-                carReminderHandler.handlerReminder(commandCar);
+                carReminderHandler.handlerReminder();
             }
 
         }while (!commandCar.equalsIgnoreCase("quit"));

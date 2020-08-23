@@ -15,13 +15,13 @@ import java.util.Scanner;
 
 public class CarReminderHandler {
     private Scanner scanner = new Scanner(System.in);
+    private EntityDao<Car> carEntityDao = new EntityDao<>();
     private CarReminderDao carReminderDao = new CarReminderDao();
 
-    public void handlerReminder(String command) {
-
+    public void handlerReminder() {
         System.out.println("Write command: ");
         printReminderCommend();
-        command = scanner.nextLine();
+        String command = scanner.nextLine();
 
         CarReminderDao carReminderDao = new CarReminderDao();
         if (command.equalsIgnoreCase("add")) {
@@ -61,7 +61,7 @@ public class CarReminderHandler {
     }
 
     private void findByCarReminder(CarReminderDao carReminderDao) {
-        System.out.println("Enter the phrase which you want to find the car reminder: " +
+        System.out.println("Enter the phrase which you want to find the car reminder: \n " +
                 "leasing \n " +
                 "insurance \n " +
                 "review \n " +
@@ -187,10 +187,32 @@ public class CarReminderHandler {
                 throw new IllegalStateException("Unexpected value" + period);
         }
 
+        Car car = askUserForCar();
+
         CarReminder carReminder = new CarReminder(reminderType, amount, LocalDate.of(year, month, day), reminderPeriod);
+        carReminder.setCar(car);
         carReminderEntityDao.saveOrUpdate(carReminder);
 
         System.out.println("Reminder added");
+    }
+
+    private Car askUserForCar() {
+        Car car = null;
+        do{
+            System.out.println("This is a list of cars:");
+            carEntityDao
+                    .findAll(Car.class)
+                    .forEach(System.out::println);
+            System.out.println();
+            System.out.println("Provide car id:");
+
+            Long carId = Long.parseLong(scanner.nextLine());
+            Optional<Car> optionalCar = carEntityDao.findById(Car.class, carId);
+            if(optionalCar.isPresent()){
+                car = optionalCar.get();
+            }
+        }while (car == null);
+        return car;
     }
 
 

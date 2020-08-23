@@ -3,17 +3,18 @@ package org.example.reminder_my_project;
 import org.example.reminder_my_project.database.CarDao;
 import org.example.reminder_my_project.database.EntityDao;
 import org.example.reminder_my_project.project.Car;
+import org.example.reminder_my_project.project.CarReminder;
 
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class CarHandler {
     private Scanner scanner = new Scanner(System.in);
+    private EntityDao<Car> carEntityDao = new EntityDao<>();
 
-    public void handle(String command) {
+    public void handle() {
         System.out.println("Write command");
         printCarCommand();
-        command = scanner.nextLine();
+        String command = scanner.nextLine();
 
         CarDao carDao = new CarDao();
         if (command.equalsIgnoreCase("add")){
@@ -62,31 +63,28 @@ public class CarHandler {
 
 
     private void deleteCar() {
-        EntityDao<Car> entityDao = new EntityDao<>();
         System.out.println("Which car to delete - enter the car id:");
         Long id = Long.parseLong(scanner.nextLine());
 
-        Optional<Car> carDelete = entityDao
+        Optional<Car> carDelete = carEntityDao
                 .findById(Car.class, id);
 
         if (carDelete.isPresent()) {
             Car car = carDelete.get();
-            entityDao.delete(car);
+            carEntityDao.delete(car);
             System.out.println("Car removed. ");
         } else {
             System.out.println("Not found car");
         }
     }
 
-    private static void showCars() {
-        EntityDao<Car> carEntityDao = new EntityDao<>();
+    public void showCars() {
         carEntityDao
                 .findAll(Car.class)
                 .forEach(System.out::println);
     }
 
     private  void addCar() {
-        EntityDao<Car> carEntityDao = new EntityDao<>();
         System.out.println("Enter car mark");
         String mark = scanner.nextLine();
 
@@ -98,7 +96,5 @@ public class CarHandler {
 
         Car car = new Car(mark, model, regNum);
         carEntityDao.saveOrUpdate(car);
-
-        System.out.println("Car added");
     }
 }

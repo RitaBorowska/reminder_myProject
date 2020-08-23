@@ -37,8 +37,7 @@ public class CarReminder {
         this.amount = amount;
         this.date = date;
         this.period = period;
-
-
     }
+
 
 }
