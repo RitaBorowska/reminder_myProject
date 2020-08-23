@@ -1,7 +1,7 @@
 package org.example.reminder_my_project.database;
 
-import org.example.reminder_my_project.project.Car;
 import org.example.reminder_my_project.project.CarReminder;
+import org.example.reminder_my_project.project.ReminderType;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,17 +9,16 @@ import org.hibernate.SessionFactory;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CarReminderDao {
 
-    public List<CarReminder> findByReminder(String reminderPhrase) {
-
+    public List<CarReminder> findByReminder(ReminderType reminderPhrase) {
         List<CarReminder> list = new ArrayList<>();
 
         SessionFactory sessionFactory = HibernateUtil.getOurSessionFactory();
-
         try (Session session = sessionFactory.openSession()) {
 
             CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -31,9 +30,9 @@ public class CarReminderDao {
             criteriaQuery
                     .select(rootTable)
                     .where(
-                            cb.or(
-                                    cb.like(rootTable.get("type"), reminderPhrase),
-                                    cb.like(rootTable.get("date"), reminderPhrase)
+                            cb.and(
+                                    cb.equal(rootTable.get("type"),reminderPhrase),
+                                    cb.between(rootTable.get("date"), LocalDate.now(), LocalDate.now().plusMonths(1))
                             )
                     );
 

@@ -10,21 +10,32 @@ import java.util.Scanner;
 public class CarHandler {
     private Scanner scanner = new Scanner(System.in);
 
-    public void handle(String[] words) {
+    public void handle(String command) {
+        System.out.println("Write command");
+        printCarCommand();
+        command = scanner.nextLine();
+
         CarDao carDao = new CarDao();
-        if (words[1].equalsIgnoreCase("add")) {
+        if (command.equalsIgnoreCase("add")){
             addCar();
-        } else if (words[1].equalsIgnoreCase("show")) {
+        } else if (command.equalsIgnoreCase("show")) {
             showCars();
-        } else if (words[1].equalsIgnoreCase("findby")) {
+        } else if (command.equalsIgnoreCase("findby")) {
             findBy(carDao);
-        } else if (words[1].equalsIgnoreCase("delete")) {
+        } else if (command.equalsIgnoreCase("delete")) {
             deleteCar();
         }
     }
 
+    private void printCarCommand() {
+        System.out.println(" - [show]");
+        System.out.println(" - [add]");
+        System.out.println(" - [findby]");
+        System.out.println(" - [delete]");
+    }
+
     private void findBy(CarDao carDao) {
-        System.out.println("Enter searched phrase:");
+        System.out.println("Enter the phrase which you want to find the car:");
         String phrase = scanner.nextLine();
         carDao.findByAny(phrase)
                 .forEach(System.out::println);
@@ -87,5 +98,7 @@ public class CarHandler {
 
         Car car = new Car(mark, model, regNum);
         carEntityDao.saveOrUpdate(car);
+
+        System.out.println("Car added");
     }
 }

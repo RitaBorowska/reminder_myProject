@@ -17,7 +17,7 @@ public class CarReminder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idRem;
+    private Long idRem;
 
     @Enumerated(value = EnumType.STRING)
     private ReminderType type;

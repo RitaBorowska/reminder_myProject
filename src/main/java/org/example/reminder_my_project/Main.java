@@ -22,29 +22,20 @@ public class Main {
             commandCar = scanner.nextLine();
             String[] words = commandCar.split(" ");
 
-            if(words[0].equalsIgnoreCase("car")){
-                carHandler.handle(words);
-            } else if
-                (words[0].equalsIgnoreCase("reminder"));
-                    carReminderHandler.handlerReminder(words);
-
+            if (words[0].equalsIgnoreCase("car")) {
+                carHandler.handle(commandCar);
+            } else if (words[0].equalsIgnoreCase("reminder")) {
+                carReminderHandler.handlerReminder(commandCar);
             }
 
-         while (!commandCar.equalsIgnoreCase("quit"));
+        }while (!commandCar.equalsIgnoreCase("quit"));
 
         }
 
-
-
     private  static void showComond(){
-        System.out.println("car show");
-        System.out.println("car add");
-        System.out.println("car findby {mark} {model} {regNum}");
-        System.out.println("car delete");
-        System.out.println("reminder show");
-        System.out.println("reminder add");
-        System.out.println("remnder findby {type} {date}");
-        System.out.println("delete");
+        System.out.println(" - [Car]");
+        System.out.println(" - [Reminder]");
+        System.out.println(" - [quit]");
     }
 
 }

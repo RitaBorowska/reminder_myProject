@@ -8,28 +8,43 @@ import org.example.reminder_my_project.project.ReminderPeriod;
 import org.example.reminder_my_project.project.ReminderType;
 
 import java.time.LocalDate;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class CarReminderHandler {
     private Scanner scanner = new Scanner(System.in);
+    private CarReminderDao carReminderDao = new CarReminderDao();
 
-    public void handlerReminder(String [] words){
+    public void handlerReminder(String command) {
+
+        System.out.println("Write command: ");
+        printReminderCommend();
+        command = scanner.nextLine();
+
         CarReminderDao carReminderDao = new CarReminderDao();
-        if (words[1].equalsIgnoreCase("add")) {
+        if (command.equalsIgnoreCase("add")) {
             addCarReminder();
-        } else if  (words[1].equalsIgnoreCase("show")) {
+        } else if (command.equalsIgnoreCase("show")) {
             showCarReminder();
-        } else if (words[1].equalsIgnoreCase("findby")) {
-            findByCarReinder(carReminderDao);
-        } else if (words[1].equalsIgnoreCase("delete")) {
+        } else if (command.equalsIgnoreCase("findby")) {
+            findByCarReminder(carReminderDao);
+        } else if (command.equalsIgnoreCase("delete")) {
             deleteCarReminder();
         }
     }
 
+    private void printReminderCommend() {
+        System.out.println(" - [show]");
+        System.out.println(" - [add]");
+        System.out.println(" - [findby]");
+        System.out.println(" - [delete]");
+    }
+
     private void deleteCarReminder() {
         EntityDao<CarReminder> entityDao = new EntityDao<>();
-        System.out.println("Which reminder to delete?");
+        System.out.println("Which car reminder to delete - enter the car reminder id:");
         Long id = Long.parseLong(scanner.nextLine());
 
         Optional<CarReminder> carReminderDelete = entityDao
@@ -38,19 +53,45 @@ public class CarReminderHandler {
         if (carReminderDelete.isPresent()) {
             CarReminder carReminder = carReminderDelete.get();
             entityDao.delete(carReminder);
-            System.out.println("Car removed. ");
+            System.out.println("Car reminder removed. ");
         } else {
-            System.out.println("Not found car");
+            System.out.println("Not found car reminder");
         }
 
     }
 
-    private void findByCarReinder(CarReminderDao carReminderDao) {
-        System.out.println("Write car reminder phrase:");
-        String reminderPhrase = scanner.nextLine();
-        carReminderDao.findByReminder(reminderPhrase)
-                .forEach(System.out::println);
+    private void findByCarReminder(CarReminderDao carReminderDao) {
+        System.out.println("Enter the phrase which you want to find the car reminder: " +
+                "leasing \n " +
+                "insurance \n " +
+                "review \n " +
+                "oil \n " +
+                "fire \n " +
+                "tacho \n " +
+                "wash \n " +
+                "calibration");
+
+        boolean error = false;
+
+        do {
+            try {
+                ReminderType reminderType = ReminderType.valueOfShortReminder(scanner.nextLine().toLowerCase());
+
+                List<CarReminder> resultReminderList = carReminderDao.findByReminder(reminderType);
+                error = false;
+
+                if (resultReminderList.size() > 0) {
+                    System.out.println("Car reminder found.");
+                    resultReminderList.forEach(System.out::println);
+                } else
+                    System.out.println("Reminder not found");
+            } catch (InputMismatchException e) {
+                System.out.println("Write the correct type ");
+                scanner.nextLine();
+            }
+        } while (error);
     }
+
 
     private void showCarReminder() {
         EntityDao<CarReminder> reminderEntityDao = new EntityDao<>();
@@ -100,6 +141,7 @@ public class CarReminderHandler {
                 break;
             case 8:
                 reminderType = ReminderType.THERMOMETER_CALIBRATION;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value" + reminder);
 
@@ -145,8 +187,10 @@ public class CarReminderHandler {
                 throw new IllegalStateException("Unexpected value" + period);
         }
 
-         CarReminder carReminder = new CarReminder(reminderType, amount, LocalDate.of(year,month, day), reminderPeriod );
-         carReminderEntityDao.saveOrUpdate(carReminder);
+        CarReminder carReminder = new CarReminder(reminderType, amount, LocalDate.of(year, month, day), reminderPeriod);
+        carReminderEntityDao.saveOrUpdate(carReminder);
+
+        System.out.println("Reminder added");
     }
 
 
