@@ -1,4 +1,4 @@
-package org.example.reminder_my_project.project;
+package org.example.reminderProject.model;
 
 public enum ReminderPeriod {
     YEAR,

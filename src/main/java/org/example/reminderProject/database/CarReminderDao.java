@@ -1,7 +1,7 @@
-package org.example.reminder_my_project.database;
+package org.example.reminderProject.database;
 
-import org.example.reminder_my_project.project.CarReminder;
-import org.example.reminder_my_project.project.ReminderType;
+import org.example.reminderProject.model.CarReminder;
+import org.example.reminderProject.model.CarReminderType;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CarReminderDao {
 
-    public List<CarReminder> findByReminder(ReminderType reminderPhrase) {
+    public List<CarReminder> findByReminder(CarReminderType reminderPhrase) {
         List<CarReminder> list = new ArrayList<>();
 
         SessionFactory sessionFactory = HibernateUtil.getOurSessionFactory();

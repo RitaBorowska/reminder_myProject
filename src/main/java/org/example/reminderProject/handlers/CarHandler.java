@@ -1,9 +1,8 @@
-package org.example.reminder_my_project;
+package org.example.reminderProject.handlers;
 
-import org.example.reminder_my_project.database.CarDao;
-import org.example.reminder_my_project.database.EntityDao;
-import org.example.reminder_my_project.project.Car;
-import org.example.reminder_my_project.project.CarReminder;
+import org.example.reminderProject.database.CarDao;
+import org.example.reminderProject.database.EntityDao;
+import org.example.reminderProject.model.Car;
 
 import java.util.*;
 
@@ -17,10 +16,10 @@ public class CarHandler {
         String command = scanner.nextLine();
 
         CarDao carDao = new CarDao();
-        if (command.equalsIgnoreCase("add")){
-            addCar();
-        } else if (command.equalsIgnoreCase("show")) {
+        if (command.equalsIgnoreCase("list")) {
             showCars();
+        } else if (command.equalsIgnoreCase("add")){
+            addCar();
         } else if (command.equalsIgnoreCase("findby")) {
             findBy(carDao);
         } else if (command.equalsIgnoreCase("delete")) {
@@ -29,14 +28,18 @@ public class CarHandler {
     }
 
     private void printCarCommand() {
-        System.out.println(" - [show]");
-        System.out.println(" - [add]");
-        System.out.println(" - [findby]");
-        System.out.println(" - [delete]");
+        System.out.println("Car - [list]");
+        System.out.println("Car - [add]");
+        System.out.println("Car - [findby]");
+        System.out.println("Car - [delete]");
     }
 
     private void findBy(CarDao carDao) {
-        System.out.println("Enter the phrase which you want to find the car:");
+        System.out.println("Enter the car which you want to find :");
+        System.out.println(" write id car \n" +
+                " or mark \n" +
+                " or model \n" +
+                " or registration number \n");
         String phrase = scanner.nextLine();
         carDao.findByAny(phrase)
                 .forEach(System.out::println);

@@ -1,6 +1,6 @@
-package org.example.reminder_my_project.database;
+package org.example.reminderProject.database;
 
-import org.example.reminder_my_project.project.Car;
+import org.example.reminderProject.model.Car;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

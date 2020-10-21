@@ -1,8 +1,8 @@
-package org.example.reminder_my_project.project;
+package org.example.reminderProject.model;
 
 import java.util.InputMismatchException;
 
-public enum ReminderType {
+public enum CarReminderType {
     LEASING("leasing"),
     INSURANCE("insurance"),
     REVIEW("review"),
@@ -14,11 +14,11 @@ public enum ReminderType {
 
     private String shortName;
 
-    ReminderType(String shortName) {
+    CarReminderType(String shortName) {
         this.shortName = shortName;
     }
 
-    public static ReminderType valueOfShortReminder(String shortName) {
+    public static CarReminderType valueOfShortReminder(String shortName) {
 
         if (shortName.equalsIgnoreCase(LEASING.shortName)) {
             return LEASING;
