@@ -12,10 +12,14 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+
 public class CarReminderHandler {
+
     private Scanner scanner = new Scanner(System.in);
     private EntityDao<Car> carEntityDao = new EntityDao<>();
     private CarReminderDao carReminderDao = new CarReminderDao();
+    private CarReminderDao carReminderDate = new CarReminderDao();
+
 
     public void handlerReminder() {
 
@@ -35,12 +39,14 @@ public class CarReminderHandler {
 
     }
     private void printReminderCommend() {
+
         System.out.println("Reminder - [list]: ");
         System.out.println("Reminder - [add]: ");
         System.out.println("Reminder - [findby]: ");
         System.out.println("Reminder - [delete]: ");
     }
     private void deleteCarReminder() {
+
         EntityDao<CarReminder> entityDao = new EntityDao<>();
         System.out.println("Which car reminder to delete - enter the car reminder id:");
         Long id = Long.parseLong(scanner.nextLine());
@@ -54,23 +60,41 @@ public class CarReminderHandler {
             System.out.println("Not found reminder to delete");
         }
     }
+
+//    private void findByDateOfReminder(CarReminderDao carReminderDao) {
+//        System.out.println("Enter the date of the reminder: ");
+//        LocalDate reminderDate = LocalDate.of(Integer.parseInt(scanner.nextLine()), Integer.parseInt(scanner.nextLine()), Integer.parseInt(scanner.nextLine()));
+//        List<CarReminder> resultReminderList = carReminderDate.findByReminder(reminderDate);
+//        if (resultReminderList
+//                .stream()
+//                .findFirst()
+//                .isPresent()) {
+//            System.out.println("Reminder found: ");
+//            resultReminderList
+//                    .forEach(System.out::println);
+//        } else
+//            System.out.println("Reminder not found !");
+//
+//    }
+
     private void findByCarReminder(CarReminderDao carReminderDao) {
+
         System.out.println("Choose type of reminder: \n " +
-                "leasing \n " +
-                "insurance \n " +
-                "review \n " +
-                "oil \n " +
-                "fire \n " +
-                "tacho \n " +
-                "wash \n " +
-                "calibration");
+                "1 - leasing \n " +
+                "2 - insurance \n " +
+                "3 - review \n " +
+                "4 - oil \n " +
+                "5 - fire \n " +
+                "6 - tacho \n " +
+                "7 - wash \n " +
+                "8 - calibration");
         boolean error = false;
         do {
             try {
-                CarReminderType reminderType = CarReminderType.valueOfShortReminder(scanner.nextLine().toLowerCase());
+                CarReminderType reminderType = CarReminderType.valueOfShortReminder(scanner.nextLine());
                 List<CarReminder> resultReminderList = carReminderDao.findByReminder(reminderType);
                 error = false;
-                if (resultReminderList.size() > 0) {
+                if ((resultReminderList.stream().findFirst().isPresent())) {
                     System.out.println("Reminder found.");
                     resultReminderList.forEach(System.out::println);
                 } else
@@ -169,6 +193,20 @@ public class CarReminderHandler {
         carReminder.setCar(car);
         carReminderEntityDao.saveOrUpdate(carReminder);
         System.out.println("Reminder added");
+//        String input;
+//        System.out.println("Do you want add car [y/n}]");
+//        input = scanner.nextLine();
+//        if (input.equalsIgnoreCase("y")) {
+//            Car car = askUserForCar();
+//            CarReminder carReminder = new CarReminder(reminderType, amount, LocalDate.of(year, month, day), reminderPeriod);
+//            carReminder.setCar(car);
+//            carReminderEntityDao.saveOrUpdate(carReminder);
+//            System.out.println("Reminder added to car");
+//        } else if (input.equalsIgnoreCase("n")) {
+//            CarReminder carReminder = new CarReminder(reminderType, amount, LocalDate.of(year, month, day), reminderPeriod);
+//            carReminderEntityDao.saveOrUpdate(carReminder);
+//            System.out.println("Reminder not added");
+//        }
     }
     private Car askUserForCar() {
         Car car = null;

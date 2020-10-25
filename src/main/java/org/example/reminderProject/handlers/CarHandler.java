@@ -36,11 +36,13 @@ public class CarHandler {
 
     private void findBy(CarDao carDao) {
         System.out.println("Enter the car which you want to find :");
-        System.out.println(" write id car \n" +
-                " or mark \n" +
+        System.out.println(" write mark \n" +
                 " or model \n" +
                 " or registration number \n");
         String phrase = scanner.nextLine();
+        phrase.equalsIgnoreCase("mark");
+        phrase.equalsIgnoreCase("model");
+        phrase.equalsIgnoreCase("regNum");
         carDao.findByAny(phrase)
                 .forEach(System.out::println);
     }

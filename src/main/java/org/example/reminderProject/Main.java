@@ -42,7 +42,7 @@ public class Main {
         System.out.println("Employee");
         System.out.println("EmployeeReminder");
         System.out.println("Car");
-        System.out.println("CarRemonder");
+        System.out.println("CarReminder");
         System.out.println("Quit");
     }
 

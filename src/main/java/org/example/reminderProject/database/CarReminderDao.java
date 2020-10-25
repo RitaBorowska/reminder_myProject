@@ -30,7 +30,7 @@ public class CarReminderDao {
             criteriaQuery
                     .select(rootTable)
                     .where(
-                            cb.and(
+                            cb.or(
                                     cb.equal(rootTable.get("type"),reminderPhrase),
                                     cb.between(rootTable.get("date"), LocalDate.now(), LocalDate.now().plusMonths(1))
                             )
@@ -43,4 +43,36 @@ public class CarReminderDao {
         }
         return list;
     }
+
+    //    public List<CarReminder> findByTypeOfReminder(CarReminderType carReminderType) {
+//        List<CarReminder> list = new ArrayList<>();
+//        SessionFactory sessionFactory = HibernateUtil.getOurSessionFactory();
+//        try (Session session = sessionFactory.openSession()) {
+//            CriteriaBuilder cb = session.getCriteriaBuilder();
+//            CriteriaQuery<CarReminder> criteriaQuery = cb.createQuery(CarReminder.class);
+//            Root<CarReminder> reminderCarRoot = criteriaQuery.from(CarReminder.class);
+//            criteriaQuery.select(reminderCarRoot)
+//                    .where(cb.equal(reminderCarRoot.get("typeOfReminder"), carReminderType));
+//            list.addAll(session.createQuery(criteriaQuery).list());
+//        } catch (HibernateException he) {
+//            he.printStackTrace();
+//        }
+//        return list;
+//    }
+
+//    public List<CarReminder> findByDateOfReminder (LocalDate date) {
+//        List<CarReminder> list = new ArrayList<>();
+//        SessionFactory sessionFactory = HibernateUtil.getOurSessionFactory();
+//        try (Session session = sessionFactory.openSession()){
+//            CriteriaBuilder cb = session.getCriteriaBuilder();
+//            CriteriaQuery<CarReminder> criteriaQuery = cb.createQuery(CarReminder.class);
+//            Root<CarReminder> reminderCarRoot = criteriaQuery.from(CarReminder.class);
+//            criteriaQuery.select(reminderCarRoot)
+//                    .where(cb.equal(reminderCarRoot.get("dateOfReminder"), date));
+//            list.addAll(session.createQuery(criteriaQuery).list());
+//        } catch (HibernateException he) {
+//            he.printStackTrace();
+//        }
+//        return list;
+//    }
 }

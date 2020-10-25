@@ -19,6 +19,7 @@ public class EmployeeReminderHandler {
         private EntityDao<Employee> employeeEntityDao = new EntityDao<>();
         private EntityDao<EmployeeReminder> reminderEmployeeEntityDao = new EntityDao<>();
         private EmployeeReminderDao reminderEmployeeDao = new EmployeeReminderDao();
+
         public void handleRemidnder() {
             System.out.println("Write command: ");
             printReminderCommand();
@@ -67,11 +68,11 @@ public class EmployeeReminderHandler {
         }
         private void findByDateOfReminder() {
             System.out.println("Choose date of reminder: ");
-            LocalDate data = LocalDate.of(Integer.parseInt(scanner.nextLine()), Integer.parseInt(scanner.nextLine()), Integer.parseInt(scanner.nextLine()));
-            List<EmployeeReminder> resultRemiderList = reminderEmployeeDao.findBydateOdReminder(data);
-            if (resultRemiderList.stream().findFirst().isPresent()) {
+            LocalDate date = LocalDate.of(Integer.parseInt(scanner.nextLine()), Integer.parseInt(scanner.nextLine()), Integer.parseInt(scanner.nextLine()));
+            List<EmployeeReminder> resultReminderList = reminderEmployeeDao.findBydateOdReminder(date);
+            if (resultReminderList.stream().findFirst().isPresent()) {
                 System.out.println("Reminder found: ");
-                resultRemiderList.forEach(System.out::println);
+                resultReminderList.forEach(System.out::println);
             } else
                 System.out.println("Reminder not found");
         }
@@ -114,12 +115,12 @@ public class EmployeeReminderHandler {
         private void addRemider() {
             EntityDao<EmployeeReminder> reminderEntityDao = new EntityDao<>();
             System.out.println("Choose type of reminder: \n" +
-                    "1- ubezpieczenie ZUS \n" +
+                    "1 - ubezpieczenie ZUS \n" +
                     "2 - wypłata \n" +
                     "3 - podatek od wynagrodzenia \n" +
                     "4 - delegacja \n" +
                     "5 - badania okresowe \n" +
-                    "6- lista obecności");
+                    "6 - lista obecności");
             int type = Integer.parseInt(scanner.nextLine());
             EmployeeReminderType typeOfReminder;
             switch (type) {
@@ -191,7 +192,7 @@ public class EmployeeReminderHandler {
             } else if (input.equalsIgnoreCase("n")) {
                 EmployeeReminder reminderEmployee = new EmployeeReminder(typeOfReminder, timeofAmount, LocalDate.of(year, month, day), reminderPeriod);
                 reminderEntityDao.saveOrUpdate(reminderEmployee);
-                System.out.println("Reminder added");
+                System.out.println("Reminder not added");
             }
         }
         private Employee askUserForEmployee() {
